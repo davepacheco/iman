@@ -9,6 +9,12 @@ browser and uses that to render the page.  If "links" isn't found, it uses
 
 Use `iman` like man, except that only the "-s" option is supported.
 
-`iman read`: loads `read` from section 1 (command-line programs)
+Load the `read` man page (defaults to section 1: command-line programs):
 
-`iman -s2 read`: loads `read` from section 2 (system calls)
+    iman read
+
+Specify section 2 (system calls) instead:
+
+    iman -s2 read
+
+Thanks to Josh Clulow for the illumos.org man page viewer.
