@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#
+# iman [-s SECTION] PAGE: open illumos man pages from the OS X command line.
+# Looks for the "links" text browser by default, but falls back to "open" to use
+# the default browser.
+#
+
+function usage
+{
+	[[ -n "$@" ]] && echo "$(basename $0): $@" >&2
+	echo "usage: iman [-s SECTION] PAGE" >&2
+	exit 2;
+}
+
+base="http://illumos.org/man"
+url="$base"
+uselinks="true"
+
+if ! type "links" > /dev/null 2>&1; then
+	uselinks="false"
+fi
+
+while getopts ":s:" c "$@"; do
+	case "$c" in
+	s)	url="$base/$OPTARG" ;;
+	:)      usage "option requires an argument -- $OPTARG"  ;;
+	*)      usage "invalid option -- $OPTARG"  ;;
+	esac
+done
+
+shift $(( $OPTIND - 1))
+[[ -n "$1" ]] || usage
+echo "$url/$1"
+
+if [[ $uselinks == "true" ]]; then
+	links -dump "$url/$1" | ${PAGER:-more}
+else
+	open "$url/$1"
+fi
