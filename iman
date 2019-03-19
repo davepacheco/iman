@@ -31,7 +31,7 @@ shift $(( $OPTIND - 1))
 echo "$url/$1"
 
 if [[ $useopen != "true" ]]; then
-	curl -s "$url/__raw/$1" | ${PAGER:-more}
+	curl -L -s "$url/__raw/$1" | ${PAGER:-more}
 else
 	open "$url/$1"
 fi
